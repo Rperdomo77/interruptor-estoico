@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Interruptor Estoico 2.0 — Control Mental & Ataraxia</title>
+  <!-- Google Fonts: Outfit (títulos) e Inter (cuerpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* VARIABLES DE DISEÑO PREMIUM (LINEAR DARK MODE) */
+    :root {
+      --bg-color: #09090b;          /* Negro profundo de fondo */
+      --card-bg: #18181b;          /* Gris carbón de tarjetas */
+      --card-bg-glow: rgba(24, 24, 27, 0.85);
+      --border-color: #27272a;     /* Borde oscuro sutil */
+      --border-hover: #3f3f46;     /* Borde hover ligeramente más claro */
+      --text-main: #f4f4f5;        /* Blanco roto de alta legibilidad */
+      --text-muted: #a1a1aa;       /* Gris medio para descripciones */
+      --gold-accent: #c5a880;      /* Muted Gold */
+      --gold-glow: rgba(197, 168, 128, 0.15);
+      --gold-glow-strong: rgba(197, 168, 128, 0.3);
+      --success-green: #10b981;    /* Verde para elementos completados */
+      --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      /* Gradiente de fondo radial que emula un foco dorado superior sutil */
+      background-image: 
+        radial-gradient(circle at top, rgba(197, 168, 128, 0.07) 0%, rgba(9, 9, 11, 0) 50%),
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px), 
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    /* CABECERA (HEADER) */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--gold-accent);
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    .logo-icon::after {
+      content: '';
+      width: 12px;
+      height: 2px;
+      background-color: var(--gold-accent);
+      border-radius: 1px;
+      transform: rotate(0deg);
+      transition: var(--transition-smooth);
+    }
+
+    .logo-icon.active::after {
+      transform: rotate(90deg);
+      background-color: var(--success-green);
+      box-shadow: 0 0 8px var(--success-green);
+    }
+
+    .brand-title {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+    }
+
+    .brand-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-left: 1px solid var(--border-color);
+      padding-left: 0.75rem;
+      margin-left: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* MÓDULO 1: LA CRIBA DEL CONTROL INTERACTIVA */
+    .criba-section {
+      background: var(--card-bg-glow);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+
+    .criba-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
+      opacity: 0.3;
+    }
+
+    .criba-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .criba-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 550;
+      color: var(--gold-accent);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .criba-description {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 800px;
+    }
+
+    .criba-grid {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      transition: var(--transition-smooth);
+    }
+
+    .criba-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .criba-col-title {
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .criba-col.left .criba-col-title {
+      color: var(--text-main);
+    }
+
+    .criba-col.right .criba-col-title {
+      color: var(--text-muted);
+    }
+
+    .criba-textarea {
+      width: 100%;
+      height: 180px;
+      background: rgba(9, 9, 11, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      resize: none;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .criba-textarea:focus {
+      border-color: var(--gold-accent);
+      box-shadow: 0 0 15px rgba(197, 168, 128, 0.05);
+      background: rgba(9, 9, 11, 0.8);
+    }
+
+    .criba-textarea::placeholder {
+      color: #52525b;
+    }
+
+    /* ESTADO CERRADO DE LA CRIBA */
+    .criba-grid.closed .criba-col.right {
+      max-width: 0;
+      flex: 0;
+      opacity: 0;
+      filter: blur(12px) opacity(0);
+      pointer-events: none;
+      margin: 0;
+      padding: 0;
+      border: none;
+      overflow: hidden;
+    }
+
+    .criba-grid.closed .criba-col.left {
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+
+    .criba-grid.closed .criba-textarea.left-active {
+      border-color: var(--gold-accent);
+      box-shadow: 0 0 25px var(--gold-glow);
+      background: rgba(197, 168, 128, 0.02);
+    }
+
+    /* BOTONES DE LA CRIBA */
+    .criba-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .btn-premium {
+      background: linear-gradient(135deg, #dfc098 0%, #c5a880 100%);
+      color: #121214;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+      box-shadow: 0 4px 15px rgba(197, 168, 128, 0.2);
+    }
+
+    .btn-premium:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(197, 168, 128, 0.35);
+    }
+
+    .btn-premium:active {
+      transform: translateY(0);
+    }
+
+    /* REENCUADRE CARD */
+    .reframe-card {
+      background: rgba(197, 168, 128, 0.03);
+      border: 1px dashed var(--gold-accent);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-top: 1.5rem;
+      display: none;
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .reframe-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold-accent);
+      font-family: var(--font-title);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .reframe-card-body {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-style: italic;
+    }
+
+    /* FILA DE DETALLES: NOCHES Y AUDIO */
+    .details-row {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 2.5rem;
+    }
+
+    /* MÓDULO 2: PANEL DE LAS 7 NOCHES */
+    .noches-panel {
+      background: var(--card-bg-glow);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .noches-header {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .noches-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 550;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .noches-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .noches-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      flex-grow: 1;
+    }
+
+    /* MENÚ LATERAL DE NOCHES */
+    .noches-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-right: 1px solid var(--border-color);
+      padding-right: 1rem;
+    }
+
+    .noche-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      text-align: left;
+      font-family: var(--font-title);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition-smooth);
+      width: 100%;
+    }
+
+    .noche-tab:hover {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-main);
+    }
+
+    .noche-tab.active {
+      background: rgba(197, 168, 128, 0.05);
+      border-color: rgba(197, 168, 128, 0.15);
+      color: var(--gold-accent);
+      box-shadow: inset 3px 0 0 var(--gold-accent);
+    }
+
+    /* CÍRCULO DE PROGRESO DE LA NOCHE */
+    .progress-ring {
+      transform: rotate(-90deg);
+    }
+
+    .progress-ring__circle-bg {
+      stroke: var(--border-color);
+    }
+
+    .progress-ring__circle {
+      stroke: var(--gold-accent);
+      transition: stroke-dashoffset 0.3s ease;
+      stroke-linecap: round;
+    }
+
+    .noche-tab.active .progress-ring__circle {
+      filter: drop-shadow(0 0 2px var(--gold-accent));
+    }
+
+    .noche-tab.completed {
+      color: var(--success-green);
+    }
+
+    .noche-tab.completed .progress-ring__circle {
+      stroke: var(--success-green);
+      filter: drop-shadow(0 0 2px var(--success-green));
+    }
+
+    /* CONTENIDO DE LA NOCHE ACTIVA */
+    .noche-content-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .noche-meta {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .noche-number {
+      font-size: 0.75rem;
+      color: var(--gold-accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+    }
+
+    .noche-full-title {
+      font-family: var(--font-title);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    /* Cita editorial */
+    .noche-quote-box {
+      border-left: 2px solid var(--gold-accent);
+      padding: 0.5rem 0 0.5rem 1rem;
+      margin: 0.5rem 0;
+      background: rgba(197, 168, 128, 0.01);
+    }
+
+    .noche-quote {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .noche-quote-author {
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      color: var(--gold-accent);
+      margin-top: 0.25rem;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* Bloques de información expandibles / limpios */
+    .info-block {
+      background: rgba(9, 9, 11, 0.3);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .info-block-title {
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--gold-accent);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .info-block-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: justify;
+    }
+
+    /* CHECKLIST DE VERIFICACIÓN DE NOCHES */
+    .checklist-box {
+      background: rgba(16, 185, 129, 0.02);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .checklist-title {
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--success-green);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checklist-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-container {
+      position: relative;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+    }
+
+    .checkbox-container input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 18px;
+      width: 18px;
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      transition: var(--transition-smooth);
+    }
+
+    .checkbox-container:hover input ~ .checkmark {
+      border-color: var(--success-green);
+    }
+
+    .checkbox-container input:checked ~ .checkmark {
+      background-color: var(--success-green);
+      border-color: var(--success-green);
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .checkbox-container input:checked ~ .checkmark:after {
+      display: block;
+    }
+
+    .checkbox-container .checkmark:after {
+      left: 6px;
+      top: 2px;
+      width: 4px;
+      height: 9px;
+      border: solid var(--bg-color);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .checklist-text {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      transition: var(--transition-smooth);
+    }
+
+    .checklist-text.completed {
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    /* MÓDULO 3: SINTETIZADOR DE AUDIO ATARÁXICO */
+    .audio-panel {
+      background: var(--card-bg-glow);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: fit-content;
+      position: relative;
+    }
+
+    .audio-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .audio-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 550;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .audio-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* CANVA PARA VISUALIZADOR DE ONDAS */
+    .visualizer-container {
+      width: 100%;
+      height: 80px;
+      background: rgba(9, 9, 11, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #audio-visualizer {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .visualizer-placeholder {
+      position: absolute;
+      color: #52525b;
+      font-size: 0.8rem;
+      font-family: var(--font-title);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      pointer-events: none;
+      transition: var(--transition-smooth);
+    }
+
+    .visualizer-placeholder.hidden {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    /* SELECTOR DE MODOS DE AUDIO (SEGMENTED CONTROL) */
+    .audio-modes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .audio-mode-btn {
+      background: rgba(9, 9, 11, 0.3);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+      text-align: left;
+      transition: var(--transition-smooth);
+      width: 100%;
+    }
+
+    .audio-mode-btn:hover {
+      border-color: var(--border-hover);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .audio-mode-btn.active {
+      border-color: var(--gold-accent);
+      background: rgba(197, 168, 128, 0.03);
+      color: var(--gold-accent);
+    }
+
+    .audio-mode-title {
+      font-weight: 600;
+    }
+
+    .audio-mode-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .audio-mode-btn.active .audio-mode-desc {
+      color: rgba(244, 244, 245, 0.7);
+    }
+
+    /* CONTROLES DE REPRODUCTOR */
+    .audio-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      background: rgba(9, 9, 11, 0.3);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .playback-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .btn-play-pause {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #dfc098 0%, #c5a880 100%);
+      color: #121214;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+      box-shadow: 0 4px 10px rgba(197, 168, 128, 0.25);
+    }
+
+    .btn-play-pause:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(197, 168, 128, 0.4);
+    }
+
+    .btn-play-pause svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      transition: var(--transition-smooth);
+    }
+
+    .playback-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .playback-status {
+      font-family: var(--font-title);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .playback-status.playing {
+      color: var(--success-green);
+    }
+
+    .playback-status.paused {
+      color: var(--text-muted);
+    }
+
+    .playback-current-mode {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* CONTROL DE VOLUMEN */
+    .volume-control-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .volume-icon {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-color);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold-accent);
+      cursor: pointer;
+      box-shadow: 0 0 5px var(--gold-accent);
+      transition: var(--transition-smooth);
+    }
+
+    .volume-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gold-accent);
+      cursor: pointer;
+      box-shadow: 0 0 5px var(--gold-accent);
+      border: none;
+      transition: var(--transition-smooth);
+    }
+
+    .volume-slider::-moz-range-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* NOTIFICACIONES */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #18181b;
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--gold-accent);
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-color);
+      margin-top: 4rem;
+      padding: 1.5rem 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer p {
+      margin-bottom: 0.25rem;
+    }
+
+    /* ANIMACIONES */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 992px) {
+      .details-row {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .criba-grid {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .criba-col.left, .criba-col.right {
+        max-width: 100%;
+      }
+      .criba-grid.closed .criba-col.right {
+        display: none;
+      }
+      
+      .noches-layout {
+        grid-template-columns: 1fr;
+      }
+      .noches-menu {
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        padding-right: 0;
+        padding-bottom: 1rem;
+      }
+      .noche-tab {
+        flex-shrink: 0;
+        width: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- CABECERA -->
+    <header>
+      <div class="brand">
+        <div class="logo-icon" id="logo-indicator"></div>
+        <h1 class="brand-title">Interruptor Estoico 2.0</h1>
+        <span class="brand-subtitle">Ingeniería Mental</span>
+      </div>
+      <div class="header-actions">
+        <button class="btn-secondary" id="reset-system" title="Reinicia todas tus variables al estado de fábrica">Reiniciar Sistema</button>
+      </div>
+    </header>
+
+    <!-- MÓDULO 1: LA CRIBA DEL CONTROL INTERACTIVA -->
+    <section class="criba-section">
+      <div class="criba-header">
+        <h2 class="criba-title">La Criba del Control Interactiva</h2>
+        <p class="criba-description">
+          Aplica la ley de Epicteto antes del descanso. Filtra la memoria de trabajo clasificando tus variables. 
+          Al presionar el cierre físico, tu mente aprende a apagar y descartar lo incontrolable para consolidar un sueño regenerativo de mayor profundidad.
+        </p>
+      </div>
+
+      <div class="criba-grid" id="criba-grid-container">
+        <!-- Columna Izquierda: Bajo mi control -->
+        <div class="criba-col left">
+          <div class="criba-col-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            Bajo mi control
+          </div>
+          <textarea class="criba-textarea" id="control-interno" placeholder="Escribe aquí las variables de control interno del día (tus opiniones, decisiones, intenciones y tu nivel de esfuerzo en el presente)..."></textarea>
+        </div>
+
+        <!-- Columna Derecha: Fuera de mi control -->
+        <div class="criba-col right" id="criba-col-externo">
+          <div class="criba-col-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            Fuera de mi control
+          </div>
+          <textarea class="criba-textarea" id="control-externo" placeholder="Escribe aquí las variables de control externo que te estresan (opiniones ajenas, resultados finales, factores del entorno o incertidumbres del mañana)..."></textarea>
+        </div>
+      </div>
+
+      <div class="criba-actions">
+        <button class="btn-premium" id="btn-cierre-fisico">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="btn-cierre-text">Cierre Físico</span>
+        </button>
+      </div>
+
+      <!-- Tarjeta de Reencuadre Estoico -->
+      <div class="reframe-card" id="reframe-alert">
+        <div class="reframe-card-header">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          Reencuadre estoico activo
+        </div>
+        <div class="reframe-card-body" id="reframe-text">
+          Has filtrado el ruido. Lo incontrolable ha sido descartado. Tu atención ahora descansa únicamente en lo que puedes operar. Debe haber un mayor enfoque en tu propio deber. Duerme en paz.
+        </div>
+      </div>
+    </section>
+
+    <!-- DETALLES DE NOCHES Y SINTETIZADOR -->
+    <div class="details-row">
+      
+      <!-- MÓDULO 2: PANEL DE LAS 7 NOCHES -->
+      <section class="noches-panel">
+        <div class="noches-header">
+          <h2 class="noches-title">El Panel de las 7 Noches</h2>
+          <p class="noches-description">Explora y ejecuta el protocolo neurobiológico completo noche a noche para reconfigurar tu sistema nervioso.</p>
+        </div>
+
+        <div class="noches-layout">
+          <!-- Menú Lateral -->
+          <nav class="noches-menu" id="noches-menu-tabs">
+            <!-- Inyectado dinámicamente con JS -->
+          </nav>
+
+          <!-- Detalle de la Noche -->
+          <div class="noche-content-area" id="noche-content-display">
+            <!-- Inyectado dinámicamente con JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 3: SINTETIZADOR DE AUDIO ATARÁXICO -->
+      <section class="audio-panel">
+        <div class="audio-header">
+          <h2 class="audio-title">Sintetizador Ataráxico</h2>
+          <p class="audio-description">Genera ondas de ataraxia en tiempo real para disolver el cortisol e inducir relajación parasimpática.</p>
+        </div>
+
+        <!-- Visualizador Canvas -->
+        <div class="visualizer-container">
+          <canvas id="audio-visualizer"></canvas>
+          <div class="visualizer-placeholder" id="visualizer-text">Audio Inactivo</div>
+        </div>
+
+        <!-- Selector de Modos de Sonido -->
+        <div class="audio-modes">
+          <button class="audio-mode-btn active" data-mode="theta">
+            <span class="audio-mode-title">Ondas Theta de Sueño</span>
+            <span class="audio-mode-desc">Binaural (200Hz - 204.5Hz) + Ruido Marrón Filtrado.</span>
+          </button>
+          <button class="audio-mode-btn" data-mode="brown">
+            <span class="audio-mode-title">Ruido Marrón Profundo</span>
+            <span class="audio-mode-desc">Calidez de baja frecuencia ideal para aislar ruidos externos.</span>
+          </button>
+          <button class="audio-mode-btn" data-mode="solfeggio">
+            <span class="audio-mode-title">Frecuencia Solfeggio 528Hz</span>
+            <span class="audio-mode-desc">Sine Wave 528Hz + Sub grave 132Hz con LFO de respiración.</span>
+          </button>
+        </div>
+
+        <!-- Controles de Reproducción -->
+        <div class="audio-controls">
+          <div class="playback-row">
+            <button class="btn-play-pause" id="play-pause-btn" title="Reproducir/Pausar Ondas">
+              <svg viewBox="0 0 24 24" id="play-icon">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <svg viewBox="0 0 24 24" id="pause-icon" style="display: none;">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            </button>
+            <div class="playback-info">
+              <div class="playback-status paused" id="playback-status-txt">Sintetizador en Pausa</div>
+              <div class="playback-current-mode" id="playback-mode-txt">Ondas Theta de Sueño</div>
+            </div>
+          </div>
+
+          <!-- Slider de volumen -->
+          <div class="volume-control-wrapper">
+            <div class="volume-icon" title="Volumen">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <input type="range" class="volume-slider" id="volume-control" min="0" max="0.8" step="0.01" value="0.25">
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div class="toast" id="toast-message">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span id="toast-text">Cambios guardados con éxito.</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>Sistema Interruptor Estoico 2.0 — Diseñado para Profesionales de Alto Rendimiento</p>
+      <p>© 2026. Neurociencia Aplicada, Filosofía Práctica y Autarquía Mental.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // PROTOCOLO DE LAS 7 NOCHES - DATOS EXTRAÍDOS DE LOS ARCHIVOS DEL PROYECTO
+    const nochesData = [
+      {
+        id: 1,
+        title: "La Criba de Epícteto",
+        subtitle: "La Dicotomía del Control",
+        quote: "De las cosas que existen, unas están bajo nuestro control y otras no.",
+        author: "Epicteto",
+        neuro: "La memoria de trabajo humana tiene una capacidad de procesamiento limitada, típicamente restringida a entre 4 y 7 'chunks' o unidades de información simultáneas. Cuando intentas conciliar el sueño manteniendo abiertas múltiples variables externas no resueltas (la opinión de un cliente, la fluctuación del mercado, el comportamiento de un socio), tu córtex prefrontal (CPF) entra en sobrecarga de procesamiento.<br><br>Al no existir una resolución física factible durante la noche, el cerebro entra en un bucle cerrado de simulación que consume glucosa y mantiene activa la amígdala. La escritura analítica y la categorización estructurada actúan como un vaciado cognitivo (cognitive offloading). Al externalizar los pensamientos en un soporte físico e indestructible, el cerebro detecta que la información está a salvo y organizada. Esto reduce instantáneamente la carga en el córtex prefrontal lateral y desactiva la señal de alerta de la amígdala, permitiendo que el sistema nervioso reduzca el ritmo cardíaco.",
+        estoica: "La criba se basa en la distinción estoica fundamental entre eph' hemin (lo que depende de nosotros) y ouk eph' hemin (lo que no depende de nosotros). La regla de Epicteto es tajante: todo lo que no dependa de tu voluntad debe ser clasificado de inmediato como irrelevante para tu paz mental actual. Si una variable está fuera de tu control, intentar resolverla de noche no es solo inútil, sino una ineficiencia que destruye tu rendimiento del día siguiente. Debe haber un mayor desapego sobre los resultados externos.",
+        ejercicio: "Coloca una libreta física junto a tu cama. Diez minutos antes de acostarte, realiza el ejercicio del Filtro de Carbón: Escribe la preocupación principal que esté ocupando tu atención. Traza una línea horizontal debajo y divide el problema en dos secciones estrictas: 'Variables de Control Interno (Lo que yo decido y ejecuto)' y 'Variables de Control Externo (Lo que el mundo decide)'. Escribe junto a la lista de variables externas: 'Esto no está bajo mi mando. Lo descarto por hoy'. Cierra la libreta con un golpe firme.",
+        checklist: [
+          "Libreta física y bolígrafo colocados en la mesa de noche (prohibido dispositivos digitales).",
+          "Identificación escrita del estresor principal del día.",
+          "Separación explícita de variables controlables e incontrolables.",
+          "Descarte formal y verbal de las variables incontrolables.",
+          "Cierre físico de la libreta y apagado definitivo de luces."
+        ]
+      },
+      {
+        id: 2,
+        title: "El Tribunal de Séneca",
+        subtitle: "El Examen de Conciencia",
+        quote: "Cuando la luz se ha retirado y mi esposa se ha callado... examino todo mi día y repaso mis dichos y hechos.",
+        author: "Séneca",
+        neuro: "El cerebro procesa las emociones no resueltas mediante la activación de la corteza insular y la amígdala. Cuando nos acostamos con una sensación difusa de insatisfacción o culpa por cómo gestionamos la jornada, la mente rumia para intentar asimilar la experiencia.<br><br>La neurobiología demuestra que el etiquetado emocional (affect labeling) —el proceso de nombrar con precisión lo que sentimos y analizar nuestras conductas de forma objetiva— reduce drásticamente la reactividad de la amígdala y aumenta la activación del córtex prefrontal ventrolateral. Al evaluar tu comportamiento bajo un marco estructurado y sin juicios punitivos, tu cerebro pasa del modo defensivo (rumia e inseguridad) al modo de consolidación de aprendizaje. Esto promueve una mayor plasticidad neuronal y estabiliza la liberación de dopamina, propiciando el descanso.",
+        estoica: "Séneca recomendaba que, al final de cada jornada, cuando la luz se hubiera retirado y todo estuviera en calma, nos sometiéramos a una auditoría interna. El estoico no se juzga para castigarse, sino para corregirse. Actúa como un juez justo e incorruptible que busca optimizar los recursos morales y operativos del sistema para la jornada del día siguiente. Debe haber un análisis sobrio y pragmático de nuestras acciones.",
+        ejercicio: "Una vez acostado y con los ojos cerrados, repasa mentalmente las últimas 12 horas del día. Debes responder internamente a las siguientes tres preguntas en un orden estrictamente lógico: 1. ¿En qué me dejé arrastrar por la impulsividad o la emoción hoy? 2. ¿Qué hice correctamente hoy? (Reconoce las acciones alineadas con tus principios para reforzar las vías neuronales de recompensa). 3. ¿Qué ajuste operativo haré mañana si me encuentro en la misma situación? (Crea una instrucción prefrontal clara y ejecutable).",
+        checklist: [
+          "Luces de la habitación completamente apagadas.",
+          "Repaso cronológico del día (desde el despertar hasta el momento de acostarse).",
+          "Identificación y etiquetado del error conductual principal del día.",
+          "Reconocimiento objetivo de al menos una acción correcta realizada hoy.",
+          "Formulación de una instrucción de ajuste concreta para el día de mañana."
+        ]
+      },
+      {
+        id: 3,
+        title: "La Perspectiva de Marco Aurelio",
+        subtitle: "La Vista desde Arriba",
+        quote: "Piensa en la totalidad de la materia, de la cual eres una parte infinitesimal.",
+        author: "Marco Aurelio",
+        neuro: "La rumiación mental que provoca el insomnio suele ser egocéntrica, procesada en un marco de referencia centrado en el individuo (egocentric coordinates). Esta perspectiva activa intensamente la corteza cingulada posterior y las áreas parietales implicadas en la simulación espacial del 'yo' contra el entorno.<br><br>Al cambiar deliberadamente a un marco de referencia alocéntrico (allocentric coordinates) —visualizándote desde el exterior y a gran distancia—, el cerebro reduce la relevancia subjetiva del problema. Al disminuir la escala visual del estresor, la amígdala deja de interpretar la situación como una amenaza de vida o muerte. Esto suprime la respuesta del sistema simpático y disminuye la presión arterial, induciendo el estado de reposo idóneo para el sueño profundo.",
+        estoica: "Marco Aurelio utilizaba la técnica de la 'Vista desde Arriba' para disolver la importancia personal y la urgencia de los problemas mundanos. El emperador se recordaba a sí mismo que las preocupaciones humanas son solo motas de polvo en la inmensidad del tiempo y el cosmos (sympatheia). Esta perspectiva nos otorga una mayor madurez cognitiva y paz interior.",
+        ejercicio: "Al acostarte, realiza la meditación de la Escala Alocéntrica durante 5 minutos: Cierra los ojos y visualiza tu cuerpo en la cama. Eleva tu punto de vista de forma que veas tu habitación desde el techo. Continúa el ascenso: visualiza tu casa, tu calle, tu ciudad entera, luego tu país y finalmente la esfera de la Tierra flotando en el espacio negro. Contempla tu preocupación actual desde esa distancia estelar; observa que su tamaño físico y temporal es insignificante.",
+        checklist: [
+          "Adopción de una postura física cómoda y relajada en la cama.",
+          "Ejecución del alejamiento visual en al menos 5 niveles de escala.",
+          "Relativización espacial de la preocupación principal del día.",
+          "Reducción voluntaria de la tensión en la frente y los párpados.",
+          "Entrada consciente en el estado de vacío espacial antes del sueño."
+        ]
+      },
+      {
+        id: 4,
+        title: "El Ayuno Dopaminérgico",
+        subtitle: "La Templanza Voluntaria",
+        quote: "Empieza a vaciar tu mente de todo aquello que crees necesitar de forma indispensable.",
+        author: "Séneca",
+        neuro: "El núcleo supraquiasmático del hipotálamo regula el ciclo circadiano del cuerpo basándose en la luz y la oscuridad. La exposición a la luz azul (longitud de onda de ~480 nm) emitida por pantallas activa las células ganglionares de la retina fotosensibles, las cuales envían una señal directa que detiene la producción de melatonina en la glándula pineal.<br><br>Además, las interacciones digitales (correos, mensajes, redes) generan picos impredecibles de dopamina, seguidos de caídas drásticas que estimulan la búsqueda activa y el estado de alerta. Este secuestro dopaminérgico y lumínico mantiene el cerebro en un estado de hiperalerta cognitiva y fisiológica. Al retirar estos estímulos, permitimos la síntesis de melatonina y regulamos los receptores de dopamina D2 en el núcleo accumbens, facilitando la transición al sueño.",
+        estoica: "La templanza (sophrosyne) estoica exige el control estricto de los sentidos y la moderación voluntaria. El filósofo sabe que depender de estímulos constantes para mantenerse tranquilo es una forma de esclavitud mental. La autarquía se demuestra al ser capaces de habitar en el silencio y la oscuridad sin necesidad de recibir estímulos externos. No debe haber concesiones a la distracción nocturna.",
+        ejercicio: "Implementa el protocolo de La Celda de Descompresión: Exactamente 90 minutos antes de la hora programada para dormir, apaga todos los dispositivos electrónicos y colócalos fuera del dormitorio. Regula la temperatura de tu habitación entre 17°C y 20°C (el descenso de temperatura corporal de 1°C es una señal clave para iniciar el sueño). Dedica los últimos 45 minutos a la lectura de un libro físico o al reposo mental en silencio.",
+        checklist: [
+          "Dispositivos electrónicos apagados a la hora programada (90 minutos antes).",
+          "Teléfono móvil colocado físicamente fuera de la habitación de descanso.",
+          "Habitación a una temperatura fresca óptima para el sueño.",
+          "Luces principales apagadas, dejando solo iluminación cálida y tenue.",
+          "Transición al silencio absoluto libre de ruidos informativos."
+        ]
+      },
+      {
+        id: 5,
+        title: "La Trascendencia del Amor Fati",
+        subtitle: "El Reencuadre del Destino",
+        quote: "No busques que los eventos sucedan como tú quieres, sino desea que sucedan como suceden, y te irá bien.",
+        author: "Epicteto",
+        neuro: "Cuando la realidad no se alinea con nuestras expectativas, el cerebro activa una señal de discrepancia en la corteza cingulada anterior. Esta señal provoca la liberación de cortisol y noradrenalina, generando la sensación de frustración y estrés. Resistirse mentalmente a los acontecimientos pasados crea un estado de tensión crónica que impide que el sistema nervioso simpático reduzca su actividad.<br><br>La revaluación cognitiva (cognitive reappraisal) reconfigura esta respuesta: al reinterpretar activamente el evento estresante como un desafío útil para el aprendizaje, la corteza prefrontal ventromedial inhibe de manera directa a la amígdala. Esto reduce la inflamación sistémica, normaliza los niveles de cortisol en sangre y detiene la rumiación sobre el pasado.",
+        estoica: "Amor Fati es el amor incondicional al destino. Para el estoico, los obstáculos no son interrupciones en el camino; son el camino mismo. Séneca utilizaba la metáfora del fuego: todo lo que cae en un fuego vigoroso es consumido por este y convertido en combustible para brillar con mayor intensidad. Cada problema es el combustible de tu carácter. Debe haber una aceptación total de la realidad presente.",
+        ejercicio: "Aplica el ejercicio de la Alquimia del Suceso antes de dormir: Identifica el acontecimiento más frustrante de tu día. Escribe en tu libreta el hecho desprovisto de juicios de valor. Describe el evento con objetividad científica, utilizando solo hechos verificables (ejemplo: 'El cliente canceló la cuenta'). Responde por escrito a la pregunta clave: ¿De qué manera exacta es esto lo mejor que me pudo haber pasado hoy para entrenar mi resiliencia, mi templanza o mi capacidad estratégica? Adopta conscientemente el suceso.",
+        checklist: [
+          "Selección del evento más conflictivo del día.",
+          "Redacción objetiva y neutral del acontecimiento (sin adjetivos emocionales).",
+          "Identificación por escrito de al menos una oportunidad de crecimiento asociada.",
+          "Declaración mental de aceptación del destino (Amor Fati).",
+          "Liberación del deseo de cambiar lo que ya ha ocurrido."
+        ]
+      },
+      {
+        id: 6,
+        title: "El Control Parasimpático",
+        subtitle: "La Ataraxia Somática",
+        quote: "Mantén tu mente firme, como una roca contra la cual las olas chocan constantemente.",
+        author: "Marco Aurelio",
+        neuro: "La respiración es el único proceso del sistema nervioso autónomo que podemos controlar de forma voluntaria. Cuando prolongamos la fase de exhalación en comparación con la inhalación, el diafragma asciende y reduce el espacio en la cavidad torácica. Esto aumenta la presión arterial intratorácica por un instante.<br><br>El cerebro interpreta este cambio a través de los barorreceptores situados en el arco aórtico y el seno carotídeo, enviando una señal inmediata al núcleo del tracto solitario en el tronco encefálico para que active el nervio vago. La estimulación vagal libera acetilcolina en los nodos del corazón, reduciendo la frecuencia cardíaca y estimulando la variabilidad de la frecuencia cardíaca (HRV). El sistema nervioso simpático se desactiva, forzando al cuerpo a pasar al modo parasimpático.",
+        estoica: "La ataraxia estoica es la tranquilidad del alma, un estado de imperturbabilidad mental que se sostiene sobre un cuerpo regulado. Los estoicos sabían que la mente y el cuerpo no son entidades separadas; un cuerpo agitado arrastrará a la mente a la tormenta. Domar el cuerpo a través del control de la respiración es el paso físico necesario para domar las pasiones de la mente. Debe haber una disciplina corporal absoluta.",
+        ejercicio: "Una vez acostado en la cama en completa oscuridad, ejecuta la Respiración Cuadrada Estoica: Inhala por la nariz lentamente, llenando tu diafragma durante 4 segundos. Retén el aire en tus pulmones durante 4 segundos. Exhala el aire por la boca de forma suave y controlada durante 4 segundos. Mantén tus pulmones vacíos en apnea durante 4 segundos. Realiza 12 ciclos completos de esta respiración.",
+        checklist: [
+          "Cuerpo en posición supina (boca arriba) y alineado en la cama.",
+          "Ejecución consciente de la respiración diafragmática (sin elevar el pecho).",
+          "Cumplimiento exacto de los tiempos de retención y apnea (4-4-4-4).",
+          "Realización de al menos 12 ciclos consecutivos sin interrupciones.",
+          "Enfoque de la atención en las sensaciones físicas del aire al respirar."
+        ]
+      },
+      {
+        id: 7,
+        title: "El Sueño del Sabio",
+        subtitle: "El Protocolo Integrado",
+        quote: "El alma se tiñe del color de sus pensamientos.",
+        author: "Marco Aurelio",
+        neuro: "El cerebro aprende y automatiza comportamientos mediante la creación y el fortalecimiento de patrones sinápticos. Si repites rutinas de preocupación antes de dormir, tu cerebro se volverá cada vez más eficiente en el arte de rumiar e inducir insomnio.<br><br>Al estructurar las técnicas de este protocolo en una secuencia fija y repetitiva de 15 minutos, creas un reflejo condicionado. El cerebro aprende a asociar el inicio de esta secuencia con la desactivación automática del cortisol y el encendido del sistema parasimpático. La repetición diaria de este ritual durante el protocolo reconfigura la plasticidad sináptica de tu cerebro, permitiendo consolidar el hábito de apagar la mente.",
+        estoica: "El sabio estoico no deja nada al azar; diseña sus hábitos para mantener la virtud y la claridad mental en todo momento, incluido el descanso. El sueño del sabio es reparador, profundo y libre de fantasías ansiosas, porque la mente se retira a descansar habiendo ordenado y cerrado todas las cuentas del día. Debe haber una armonía final con las leyes naturales del reposo.",
+        ejercicio: "Este es el ritual unificado de 15 minutos que aplicarás cada noche a partir de hoy: 1. Minutos 0-5 (La Criba): Vaciado y división de variables (Noche 1). 2. Minutos 5-10 (La Auditoría y Reencuadre): Examen de conciencia (Noche 2) y Amor Fati (Noche 5). 3. Minutos 10-12 (La Perspectiva): Vista desde Arriba (Noche 3). 4. Minutos 12-15 (El Ancla): Respiración cuadrada (Noche 6) hasta dormir.",
+        checklist: [
+          "Apagado de dispositivos electrónicos 90 minutos antes de acostarte.",
+          "Ejecución del vaciado y la criba en la libreta física (5 minutos).",
+          "Examen de conciencia y reencuadre en modo de aceptación (5 minutos).",
+          "Visualización de la escala cósmica al acostarte (2 minutos).",
+          "Práctica de la respiración cuadrada hasta entrar en el sueño (3 minutos)."
+        ]
+      }
+    ];
+
+    // VARIABLES DE ESTADO DE LA APLICACIÓN
+    let currentActiveNight = 1;
+    let systemState = {
+      controlInterno: '',
+      controlExterno: '',
+      sieveClosed: false,
+      nochesProgreso: {
+        1: [false, false, false, false, false],
+        2: [false, false, false, false, false],
+        3: [false, false, false, false, false],
+        4: [false, false, false, false, false],
+        5: [false, false, false, false, false],
+        6: [false, false, false, false, false],
+        7: [false, false, false, false, false]
+      }
+    };
+
+    // SINTETIZADOR WEB AUDIO API
+    let audioCtx = null;
+    let isPlaying = false;
+    let currentAudioMode = 'theta'; // 'theta', 'brown', 'solfeggio'
+
+    // Nodos de Audio
+    let oscL = null;
+    let oscR = null;
+    let pannerL = null;
+    let pannerR = null;
+    let noiseNode = null;
+    let filterNode = null;
+    let solfeggioOsc = null;
+    let solfeggioSub = null;
+    let lfoNode = null;
+    let lfoGainNode = null;
+    let mainGainNode = null;
+    let analyserNode = null;
+    let animationFrameId = null;
+
+    // Elementos del DOM
+    const logoIndicator = document.getElementById('logo-indicator');
+    const controlInternoTx = document.getElementById('control-interno');
+    const controlExternoTx = document.getElementById('control-externo');
+    const btnCierreFisico = document.getElementById('btn-cierre-fisico');
+    const btnCierreText = document.getElementById('btn-cierre-text');
+    const cribaGrid = document.getElementById('criba-grid-container');
+    const reframeAlert = document.getElementById('reframe-alert');
+    const resetSystemBtn = document.getElementById('reset-system');
+    const nochesMenu = document.getElementById('noches-menu-tabs');
+    const nocheContentDisplay = document.getElementById('noche-content-display');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const playbackStatusTxt = document.getElementById('playback-status-txt');
+    const playbackModeTxt = document.getElementById('playback-mode-txt');
+    const volumeControl = document.getElementById('volume-control');
+    const canvas = document.getElementById('audio-visualizer');
+    const canvasCtx = canvas.getContext('2d');
+    const visualizerText = document.getElementById('visualizer-text');
+    const toast = document.getElementById('toast-message');
+    const toastText = document.getElementById('toast-text');
+
+    // INICIALIZACIÓN AL CARGAR LA PÁGINA
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromLocalStorage();
+      renderNochesMenu();
+      renderActiveNight();
+      setupCribaUI();
+      setupAudioListeners();
+      
+      // Auto-guardado en localStorage en cada pulsación/cambio
+      controlInternoTx.addEventListener('input', () => {
+        systemState.controlInterno = controlInternoTx.value;
+        saveStateToLocalStorage();
+      });
+      controlExternoTx.addEventListener('input', () => {
+        systemState.controlExterno = controlExternoTx.value;
+        saveStateToLocalStorage();
+      });
+
+      // Configurar tamaño inicial del canvas
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+    });
+
+    // SISTEMA DE ALMACENAMIENTO (LOCALSTORAGE)
+    function saveStateToLocalStorage() {
+      localStorage.setItem('sistema_interruptor_estoico_v2', JSON.stringify(systemState));
+    }
+
+    function loadStateFromLocalStorage() {
+      const saved = localStorage.getItem('sistema_interruptor_estoico_v2');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          // Fusión de estados preventiva para asegurar compatibilidad
+          systemState = { ...systemState, ...parsed };
+          controlInternoTx.value = systemState.controlInterno || '';
+          controlExternoTx.value = systemState.controlExterno || '';
+        } catch (e) {
+          console.error("Error al restaurar el estado, cargando valores predeterminados.");
+        }
+      }
+    }
+
+    function showToast(message) {
+      toastText.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // MÓDULO 1: CONTROL DE LA CRIBA
+    function setupCribaUI() {
+      if (systemState.sieveClosed) {
+        cribaGrid.classList.add('closed');
+        controlInternoTx.classList.add('left-active');
+        controlInternoTx.setAttribute('readonly', 'true');
+        controlExternoTx.setAttribute('readonly', 'true');
+        reframeAlert.style.display = 'block';
+        btnCierreText.textContent = "Abrir Criba";
+        logoIndicator.classList.add('active');
+      } else {
+        cribaGrid.classList.remove('closed');
+        controlInternoTx.classList.remove('left-active');
+        controlInternoTx.removeAttribute('readonly');
+        controlExternoTx.removeAttribute('readonly');
+        reframeAlert.style.display = 'none';
+        btnCierreText.textContent = "Cierre Físico";
+        logoIndicator.classList.remove('active');
+      }
+    }
+
+    btnCierreFisico.addEventListener('click', () => {
+      if (!systemState.sieveClosed) {
+        // Ejecutar el cierre físico
+        systemState.sieveClosed = true;
+        systemState.controlInterno = controlInternoTx.value;
+        systemState.controlExterno = controlExternoTx.value;
+        saveStateToLocalStorage();
+        
+        setupCribaUI();
+        showToast("Cierre físico completado. Ruido exterior difuminado.");
+      } else {
+        // Abrir de nuevo la criba
+        systemState.sieveClosed = false;
+        saveStateToLocalStorage();
+        
+        setupCribaUI();
+        showToast("Criba abierta. Puedes editar tus variables.");
+      }
+    });
+
+    resetSystemBtn.addEventListener('click', () => {
+      if (confirm("¿Seguro que deseas reiniciar el sistema? Se perderán todos tus datos de la criba y progresos de las 7 noches.")) {
+        localStorage.removeItem('sistema_interruptor_estoico_v2');
+        systemState = {
+          controlInterno: '',
+          controlExterno: '',
+          sieveClosed: false,
+          nochesProgreso: {
+            1: [false, false, false, false, false],
+            2: [false, false, false, false, false],
+            3: [false, false, false, false, false],
+            4: [false, false, false, false, false],
+            5: [false, false, false, false, false],
+            6: [false, false, false, false, false],
+            7: [false, false, false, false, false]
+          }
+        };
+        controlInternoTx.value = '';
+        controlExternoTx.value = '';
+        setupCribaUI();
+        renderNochesMenu();
+        renderActiveNight();
+        if (isPlaying) {
+          stopSound();
+        }
+        showToast("Sistema reiniciado con éxito.");
+      }
+    });
+
+    // MÓDULO 2: CONTROL DE LAS 7 NOCHES
+    function calculateNightProgress(nightId) {
+      const checks = systemState.nochesProgreso[nightId];
+      if (!checks) return 0;
+      const completed = checks.filter(Boolean).length;
+      return (completed / checks.length) * 100;
+    }
+
+    function renderNochesMenu() {
+      nochesMenu.innerHTML = '';
+      nochesData.forEach(noche => {
+        const progress = calculateNightProgress(noche.id);
+        const circumference = 2 * Math.PI * 8; // r=8 -> 50.26
+        const strokeDashoffset = circumference - (progress / 100) * circumference;
+        
+        const btn = document.createElement('button');
+        btn.className = `noche-tab ${noche.id === currentActiveNight ? 'active' : ''} ${progress === 100 ? 'completed' : ''}`;
+        btn.setAttribute('data-night-id', noche.id);
+        
+        btn.innerHTML = `
+          <span>Noche ${noche.id}</span>
+          <svg class="progress-ring" width="20" height="20">
+            <circle class="progress-ring__circle-bg" stroke="var(--border-color)" stroke-width="2" fill="transparent" r="8" cx="10" cy="10"/>
+            <circle class="progress-ring__circle" stroke="${progress === 100 ? 'var(--success-green)' : 'var(--gold-accent)'}" stroke-width="2" fill="transparent" r="8" cx="10" cy="10" 
+              stroke-dasharray="${circumference}" 
+              stroke-dashoffset="${strokeDashoffset}"/>
+          </svg>
+        `;
+        
+        btn.addEventListener('click', () => {
+          currentActiveNight = noche.id;
+          document.querySelectorAll('.noche-tab').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderActiveNight();
+        });
+        
+        nochesMenu.appendChild(btn);
+      });
+    }
+
+    function renderActiveNight() {
+      const noche = nochesData.find(n => n.id === currentActiveNight);
+      if (!noche) return;
+
+      const progressList = systemState.nochesProgreso[noche.id] || [false, false, false, false, false];
+
+      let checklistHtml = '';
+      noche.checklist.forEach((item, index) => {
+        const isChecked = progressList[index] ? 'checked' : '';
+        const isCompletedClass = progressList[index] ? 'completed' : '';
+        checklistHtml += `
+          <label class="checklist-item">
+            <div class="checkbox-container">
+              <input type="checkbox" data-index="${index}" ${isChecked} onchange="toggleCheck(${noche.id}, ${index}, this)">
+              <span class="checkmark"></span>
+            </div>
+            <span class="checklist-text ${isCompletedClass}">${item}</span>
+          </label>
+        `;
+      });
+
+      nocheContentDisplay.innerHTML = `
+        <div class="noche-meta">
+          <div class="noche-number">Protocolo Nocturno</div>
+          <h3 class="noche-full-title">Noche ${noche.id}: ${noche.title}</h3>
+          <div class="noche-quote-box">
+            <p class="noche-quote">"${noche.quote}"</p>
+            <div class="noche-quote-author">— ${noche.author}</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">Fundamento Neurobiológico</div>
+          <div class="info-block-text">${noche.neuro}</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">Técnica Estoica</div>
+          <div class="info-block-text">${noche.estoica}</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">Ejercicio Práctico</div>
+          <div class="info-block-text">${noche.ejercicio}</div>
+        </div>
+
+        <div class="checklist-box">
+          <div class="checklist-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Auditoría de Cumplimiento
+          </div>
+          <div class="checklist-items">
+            ${checklistHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    // Toggle de Checkboxes del Protocolo Nocturno
+    window.toggleCheck = function(nightId, checkIndex, checkbox) {
+      if (!systemState.nochesProgreso[nightId]) {
+        systemState.nochesProgreso[nightId] = [false, false, false, false, false];
+      }
+      systemState.nochesProgreso[nightId][checkIndex] = checkbox.checked;
+      saveStateToLocalStorage();
+      renderNochesMenu(); // Actualizar indicadores circulares
+      
+      const textWrapper = checkbox.closest('.checklist-item').querySelector('.checklist-text');
+      if (checkbox.checked) {
+        textWrapper.classList.add('completed');
+      } else {
+        textWrapper.classList.remove('completed');
+      }
+    };
+
+    // MÓDULO 3: SINTETIZADOR DE AUDIO ATARÁXICO (WEB AUDIO API)
+    function initAudioContext() {
+      if (audioCtx) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContextClass();
+
+      // Nodo de control de volumen principal
+      mainGainNode = audioCtx.createGain();
+      mainGainNode.gain.setValueAtTime(parseFloat(volumeControl.value), audioCtx.currentTime);
+
+      // Analizador de frecuencia para el visualizador
+      analyserNode = audioCtx.createAnalyser();
+      analyserNode.fftSize = 256;
+
+      mainGainNode.connect(analyserNode);
+      analyserNode.connect(audioCtx.destination);
+
+      startVisualizer();
+    }
+
+    // Generador de Ruido Marrón en búfer (para el fondo cálido)
+    let brownNoiseBufferCache = null;
+    function getBrownNoiseBuffer(ctx) {
+      if (brownNoiseBufferCache) return brownNoiseBufferCache;
+      
+      const bufferSize = 5 * ctx.sampleRate; // Búfer de 5 segundos en bucle
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      
+      let lastOut = 0.0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        // Ecuación de filtro para atenuar frecuencias altas y simular ruido marrón
+        data[i] = (lastOut + (0.02 * white)) / 1.02;
+        lastOut = data[i];
+        data[i] *= 3.5; // Compensación de ganancia aproximada
+      }
+      
+      brownNoiseBufferCache = buffer;
+      return brownNoiseBufferCache;
+    }
+
+    // Arrancar el sintetizador en función del modo elegido
+    function startSintetizador() {
+      initAudioContext();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      stopSintetizadorNodes(); // Asegurar limpieza total antes de arrancar
+
+      const now = audioCtx.currentTime;
+
+      if (currentAudioMode === 'theta') {
+        // Ondas Theta Binaurales
+        // Portadora a 200 Hz en el canal izquierdo, y 204.5 Hz en el derecho (Binaural de 4.5 Hz)
+        oscL = audioCtx.createOscillator();
+        oscL.type = 'sine';
+        oscL.frequency.setValueAtTime(200, now);
+
+        oscR = audioCtx.createOscillator();
+        oscR.type = 'sine';
+        oscR.frequency.setValueAtTime(204.5, now);
+
+        if (audioCtx.createStereoPanner) {
+          pannerL = audioCtx.createStereoPanner();
+          pannerL.pan.setValueAtTime(-1, now);
+          
+          pannerR = audioCtx.createStereoPanner();
+          pannerR.pan.setValueAtTime(1, now);
+
+          oscL.connect(pannerL);
+          pannerL.connect(mainGainNode);
+
+          oscR.connect(pannerR);
+          pannerR.connect(mainGainNode);
+        } else {
+          // Fallback para navegadores antiguos
+          oscL.connect(mainGainNode);
+          oscR.connect(mainGainNode);
+        }
+
+        // Ruido marrón ambiental filtrado (oleaje muy sutil de fondo)
+        const noiseBuf = getBrownNoiseBuffer(audioCtx);
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = noiseBuf;
+        noiseNode.loop = true;
+
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(350, now); // Corte de frecuencias bajas
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(0.12, now); // Volumen muy bajo para que sirva de atmósfera
+
+        noiseNode.connect(filterNode);
+        filterNode.connect(noiseGain);
+        noiseGain.connect(mainGainNode);
+
+        // Arrancar
+        oscL.start(now);
+        oscR.start(now);
+        noiseNode.start(now);
+
+      } else if (currentAudioMode === 'brown') {
+        // Ruido Marrón Puro (Ocean Rumble)
+        const noiseBuf = getBrownNoiseBuffer(audioCtx);
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = noiseBuf;
+        noiseNode.loop = true;
+
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(250, now); // Corte extra profundo
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(0.45, now); // Nivel completo para insonorización
+
+        noiseNode.connect(filterNode);
+        filterNode.connect(noiseGain);
+        noiseGain.connect(mainGainNode);
+
+        noiseNode.start(now);
+
+      } else if (currentAudioMode === 'solfeggio') {
+        // Frecuencia Solfeggio 528 Hz (Transformación)
+        solfeggioOsc = audioCtx.createOscillator();
+        solfeggioOsc.type = 'sine';
+        solfeggioOsc.frequency.setValueAtTime(528, now);
+
+        // Sub grave armónico a 132 Hz (Dos octavas abajo) para dar anclaje físico
+        solfeggioSub = audioCtx.createOscillator();
+        solfeggioSub.type = 'sine';
+        solfeggioSub.frequency.setValueAtTime(132, now);
+
+        const solfeggioGain = audioCtx.createGain();
+        solfeggioGain.gain.setValueAtTime(0.25, now);
+
+        const subGain = audioCtx.createGain();
+        subGain.gain.setValueAtTime(0.15, now);
+
+        // Modulador LFO para simular la respiración profunda (ciclo de 10 segundos)
+        lfoNode = audioCtx.createOscillator();
+        lfoNode.type = 'sine';
+        lfoNode.frequency.setValueAtTime(0.1, now); // 0.1 Hz = 10 segundos por oscilación
+
+        lfoGainNode = audioCtx.createGain();
+        lfoGainNode.gain.setValueAtTime(0.15, now); // Amplitud del cambio de volumen
+
+        lfoNode.connect(lfoGainNode);
+        lfoGainNode.connect(solfeggioGain.gain); // Modulación activa sobre la ganancia del 528Hz
+
+        // Conectar osciladores a sus ganancias
+        solfeggioOsc.connect(solfeggioGain);
+        solfeggioGain.connect(mainGainNode);
+
+        solfeggioSub.connect(subGain);
+        subGain.connect(mainGainNode);
+
+        // Llovizna sutil con ruido filtrado de fondo
+        const noiseBuf = getBrownNoiseBuffer(audioCtx);
+        noiseNode = audioCtx.createBufferSource();
+        noiseNode.buffer = noiseBuf;
+        noiseNode.loop = true;
+
+        filterNode = audioCtx.createBiquadFilter();
+        filterNode.type = 'bandpass';
+        filterNode.frequency.setValueAtTime(650, now);
+        filterNode.Q.setValueAtTime(1.5, now);
+
+        const rainGain = audioCtx.createGain();
+        rainGain.gain.setValueAtTime(0.06, now);
+
+        noiseNode.connect(filterNode);
+        filterNode.connect(rainGain);
+        rainGain.connect(mainGainNode);
+
+        // Iniciar osciladores
+        solfeggioOsc.start(now);
+        solfeggioSub.start(now);
+        lfoNode.start(now);
+        noiseNode.start(now);
+      }
+
+      isPlaying = true;
+      updatePlaybackUI();
+    }
+
+    function stopSintetizadorNodes() {
+      const now = audioCtx ? audioCtx.currentTime : 0;
+      
+      if (oscL) { try { oscL.stop(now); } catch(e){} oscL = null; }
+      if (oscR) { try { oscR.stop(now); } catch(e){} oscR = null; }
+      if (noiseNode) { try { noiseNode.stop(now); } catch(e){} noiseNode = null; }
+      if (solfeggioOsc) { try { solfeggioOsc.stop(now); } catch(e){} solfeggioOsc = null; }
+      if (solfeggioSub) { try { solfeggioSub.stop(now); } catch(e){} solfeggioSub = null; }
+      if (lfoNode) { try { lfoNode.stop(now); } catch(e){} lfoNode = null; }
+
+      pannerL = null;
+      pannerR = null;
+      filterNode = null;
+      lfoGainNode = null;
+    }
+
+    function stopSound() {
+      stopSintetizadorNodes();
+      isPlaying = false;
+      updatePlaybackUI();
+    }
+
+    function updatePlaybackUI() {
+      if (isPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        playbackStatusTxt.textContent = "Sintetizador Activo";
+        playbackStatusTxt.className = "playback-status playing";
+        visualizerText.classList.add('hidden');
+      } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        playbackStatusTxt.textContent = "Sintetizador en Pausa";
+        playbackStatusTxt.className = "playback-status paused";
+        visualizerText.classList.remove('hidden');
+      }
+
+      // Nombre amigable en la UI
+      const modeNames = {
+        'theta': 'Ondas Theta de Sueño',
+        'brown': 'Ruido Marrón Profundo',
+        'solfeggio': 'Frecuencia Solfeggio 528Hz'
+      };
+      playbackModeTxt.textContent = modeNames[currentAudioMode];
+    }
+
+    // EVENT LISTENERS DEL REPRODUCTOR DE AUDIO
+    function setupAudioListeners() {
+      playPauseBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          stopSound();
+        } else {
+          startSintetizador();
+        }
+      });
+
+      // Manejar el cambio de volumen (atenuación y rampa suave)
+      volumeControl.addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        if (mainGainNode && audioCtx) {
+          mainGainNode.gain.setTargetAtTime(val, audioCtx.currentTime, 0.02);
+        }
+      });
+
+      // Selector de modos
+      const modeButtons = document.querySelectorAll('.audio-mode-btn');
+      modeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          modeButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentAudioMode = btn.getAttribute('data-mode');
+          
+          if (isPlaying) {
+            startSintetizador(); // Reiniciar con el nuevo modo inmediatamente
+          } else {
+            updatePlaybackUI();
+          }
+        });
+      });
+    }
+
+    // VISUALIZADOR DE ONDAS EN CANVAS
+    function resizeCanvas() {
+      const rect = canvas.parentNode.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = 80;
+      if (!isPlaying) {
+        drawFlatLine();
+      }
+    }
+
+    function drawFlatLine() {
+      canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+      canvasCtx.lineWidth = 1.5;
+      canvasCtx.strokeStyle = '#27272a'; // Gris oscuro para inactivo
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(0, canvas.height / 2);
+      canvasCtx.lineTo(canvas.width, canvas.height / 2);
+      canvasCtx.stroke();
+    }
+
+    function startVisualizer() {
+      const bufferLength = analyserNode.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      function draw() {
+        animationFrameId = requestAnimationFrame(draw);
+        
+        analyserNode.getByteTimeDomainData(dataArray);
+
+        // Limpiar lienzo con un fundido ligero para dejar rastro de onda
+        canvasCtx.fillStyle = 'rgba(9, 9, 11, 0.2)';
+        canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+        canvasCtx.lineWidth = 1.5;
+        canvasCtx.strokeStyle = isPlaying ? '#c5a880' : '#27272a';
+        canvasCtx.beginPath();
+
+        const sliceWidth = canvas.width * 1.0 / bufferLength;
+        let x = 0;
+
+        for (let i = 0; i < bufferLength; i++) {
+          const v = dataArray[i] / 128.0;
+          const y = v * canvas.height / 2;
+
+          if (i === 0) {
+            canvasCtx.moveTo(x, y);
+          } else {
+            canvasCtx.lineTo(x, y);
+          }
+
+          x += sliceWidth;
+        }
+
+        canvasCtx.lineTo(canvas.width, canvas.height / 2);
+        canvasCtx.stroke();
+      }
+
+      draw();
+    }
+  </script>
+</body>
+</html>
