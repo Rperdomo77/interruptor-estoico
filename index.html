@@ -963,6 +963,167 @@
         white-space: nowrap;
       }
     }
+
+    /* SECCIÓN PROMOCIONAL DEL EBOOK */
+    .ebook-promo-section {
+      background: linear-gradient(135deg, rgba(24, 24, 27, 0.9) 0%, rgba(9, 9, 11, 0.9) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(16px);
+    }
+
+    .ebook-promo-section::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      right: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(197, 168, 128, 0.08) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+
+    .ebook-promo-container {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .ebook-cover-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+    }
+
+    .ebook-cover-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(197, 168, 128, 0.15);
+      transform: rotateY(-10deg) rotateX(5deg);
+      transition: var(--transition-smooth);
+    }
+
+    .ebook-cover-img:hover {
+      transform: rotateY(0deg) rotateX(0deg) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(197, 168, 128, 0.3);
+    }
+
+    .ebook-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .ebook-badge {
+      font-family: var(--font-title);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(197, 168, 128, 0.3);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      width: fit-content;
+      background: rgba(197, 168, 128, 0.05);
+    }
+
+    .ebook-promo-title {
+      font-family: var(--font-title);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    .ebook-promo-subtitle {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: -0.5rem;
+    }
+
+    .ebook-promo-description {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .ebook-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0.5rem 0;
+    }
+
+    .ebook-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .ebook-purchase-box {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+    }
+
+    .ebook-price {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .price-val {
+      font-family: var(--font-title);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .price-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .btn-checkout {
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 0.9rem 2.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .ebook-promo-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .ebook-cover-img {
+        max-width: 280px;
+        transform: none;
+      }
+      .ebook-cover-img:hover {
+        transform: scale(1.02);
+      }
+      .ebook-purchase-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1110,6 +1271,47 @@
       </section>
 
     </div>
+
+    <!-- SECCIÓN PROMOCIONAL DEL EBOOK PREMIUM -->
+    <section class="ebook-promo-section">
+      <div class="ebook-promo-container">
+        <div class="ebook-cover-wrapper">
+          <img src="portada_ebook.png" alt="Bóveda de Implementación Profunda" class="ebook-cover-img">
+        </div>
+        <div class="ebook-details">
+          <span class="ebook-badge">Infoproducto Premium</span>
+          <h2 class="ebook-promo-title">Bóveda de Implementación Profunda</h2>
+          <h3 class="ebook-promo-subtitle">El Sistema Operativo de la Mente Imperturbable</h3>
+          <p class="ebook-promo-description">
+            Libera tu córtex prefrontal de la sobrecarga operativa. Este manual técnico fusiona la filosofía estoica práctica con la neurobiología aplicada para erradicar la parálisis por análisis y el estrés ejecutivo de alta dirección.
+          </p>
+          <ul class="ebook-features">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Mecanismos Neurobiológicos detallados para cada capítulo.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Protocolos Algorítmicos fríos y paso a paso para la acción diaria.</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-accent)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Comandos de Cierre mental definitivos para apagar la rumiación.</span>
+            </li>
+          </ul>
+          <div class="ebook-purchase-box">
+            <div class="ebook-price">
+              <span class="price-val">47 USD</span>
+              <span class="price-label">Pago único, acceso inmediato</span>
+            </div>
+            <a href="#" class="btn-premium btn-checkout" id="checkout-link-btn" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Adquirir la Bóveda Ahora
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- TOAST NOTIFICATIONS -->
     <div class="toast" id="toast-message">
